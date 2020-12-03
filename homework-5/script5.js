@@ -5,15 +5,16 @@ const exponentiation = function (number, degree) {
     for (let i = 1; i <= degree; i++) {
         raisedNumber *= number;
     }
-    console.log(raisedNumber);
+    return raisedNumber;
 };
-exponentiation (number, degree);
+const exponentiationConst = exponentiation (number, degree);
+console.log(exponentiationConst);
 
 
 
-let yourNumb;
 let rand = Math.floor(Math.random() * (10 - 1) + 1);
-const zapusk = function (yourNumb) {
+const zapusk = function () {
+    let yourNumb;
     while (!(Number(yourNumb) === rand || yourNumb === null)) {
         yourNumb = prompt("Попробуйте угадать число (от 0 до 10)");
         console.log("Ваше число: " + yourNumb);
@@ -28,4 +29,4 @@ const proverka = function (yourNumb, rand) {
         console.log("Вы угадали!");
     } 
 };
-zapusk (yourNumb);
+zapusk ();

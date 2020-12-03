@@ -1,5 +1,5 @@
 const objectFirst = {
-    name: "Johnothon",
+    name: "John",
     surname: "Smit",
     age: 24,
     bool: true,
@@ -12,20 +12,25 @@ function lenghtOfOnject (objectFirst) {
             how += index;
         }
     }
-    console.log(how);
+    return how;
 }
+const stringLengthObj = lenghtOfOnject(objectFirst);
+console.log(stringLengthObj);
 function copyObjectFunction (objectFirst) {
     let copyObject = {}; 
     for (const key in objectFirst) {
-        copyObject[key] = objectFirst[key] = undefined;
+        copyObject[key] = undefined;
     }
-    console.log(copyObject);
+    return copyObject;
 }
+const copyObjectConst = copyObjectFunction(objectFirst);
+console.log(copyObjectConst);
+
 function copyObjectFunctionLength (objectFirst) {
     let copyObjectLength = {}; 
     for (const key in objectFirst) {
         if (typeof objectFirst[key] === "string"){
-            copyObjectLength[key] = objectFirst[key] = (objectFirst[key]).length;
+            copyObjectLength[key] = (objectFirst[key]).length;
         }
         if (typeof objectFirst[key] === "number") {
             copyObjectLength[key] = objectFirst[key];
@@ -34,9 +39,7 @@ function copyObjectFunctionLength (objectFirst) {
             copyObjectLength[key] = Number(objectFirst[key]);
         }
     }
-    console.log(copyObjectLength);
+    return copyObjectLength;
 }
-
-lenghtOfOnject (objectFirst);
-copyObjectFunctionLength (objectFirst);
-copyObjectFunction (objectFirst);
+const copyObjectLengthConst = copyObjectFunctionLength(objectFirst);
+console.log(copyObjectLengthConst);
