@@ -12,9 +12,9 @@ console.log(exponentiationConst);
 
 
 
-let rand = Math.floor(Math.random() * (10 - 1) + 1);
 const zapusk = function () {
     let yourNumb;
+    let rand = Math.floor(Math.random() * (10 - 1) + 1);
     while (!(Number(yourNumb) === rand || yourNumb === null)) {
         yourNumb = prompt("Попробуйте угадать число (от 0 до 10)");
         console.log("Ваше число: " + yourNumb);
