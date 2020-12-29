@@ -11,8 +11,8 @@ const runner = {
     start: function (speed) {
         var _this = this;
         this.$$runnerId = setTimeout(function callback() {
-            _this.$$tasks.forEach(function () {
-                // Here
+            _this.$$tasks.forEach(function (cb) {
+                cb();
             })
             _this.$$runnerId = setTimeout(callback, speed);
         }, speed);
@@ -22,50 +22,48 @@ const runner = {
     }
 }
 
+runner.add(() => console.log("Hello"));
+runner.add(() => console.log("World"));
+runner.setSpeed(1000);
 
-const arr = [1, 2, 3, 4, 5];
 
-function decr (arr) {
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = arr[i] * 5;
+
+const arr3 = [1, 2, 3, 4, 5];
+
+const funcForEach = function (arr, callback) {
+    for (let i = 0; i < arr.length; i++){
+        callback(arr[i], i, arr);
     }
-    return arr;
 }
-decr(arr);
-console.log(arr);
+funcForEach(arr3, i => console.log(i));
 
-
-
-//const even = (Element) => typeof(Element) === 'string';
-//console.log(arr.some(even));
-function fncStr (arr) {
-    let bool = false;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] == 5) {
-            bool = true;
-        };
-    };
-    console.log(bool);
-    return bool;
-}
-fncStr(arr);
-
-
-
-//const even1 = (Element) => typeof(Element) === 'number';
-//console.log(arr.every(even1));
-function fncNumb (arr) {
-    let bool = false;
-    let digit = 0;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 2) {
-            digit++;
-        };
-        if (digit === arr.length){
-            bool = true;
+const funcSome = function (arr, cb) {
+    for (let i = 0; i <= arr.length; i++){
+        if (cb.call(arr[i], i, arr)) {
+            return true;
         }
-    };
-    console.log(bool);
-    return bool;
+    }
+    return false;
 }
-fncNumb(arr);
+const ret = funcSome(arr3, element => element == 5);
+console.log(ret);
+
+
+
+const fncEver = function (arr, cb) {
+    if(arr.length === 0){
+        return true;
+    }
+    for (let i = 0; i <= arr.length; i++){
+        let iElem = arr[i];
+        if (i in arr) {
+          let result = cb.apply(arr, [iElem, i, arr])
+            if (!result) {
+                return false;
+            }
+        };
+    };
+    return true;
+}
+const ret2 = fncEver(arr3, element => element === 2);
+console.log(ret2);
