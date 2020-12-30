@@ -21,7 +21,7 @@ const Singleton = (() => {
 	modifications: ['total power', 'giant bullet'],
   type: ['boom'],
   [Symbol.iterator]() {
-    const values = Object.values(weapon);
+    const values = Array.from(Object.values(weapon));
     return {
       next() {
         const done = !values.length;
@@ -35,12 +35,13 @@ const Singleton = (() => {
   }
 };
 
-const allProperties = [...weapon]; // ['total power', 'giant bullet', 'boom']
+const {modifications, type} = weapon;
+const allProperties =  Object.values(modifications).concat(Object.values(type)); // ['total power', 'giant bullet', 'boom']
 console.log(allProperties);
 
-/*const objectIterator = weapon[Symbol.iterator]();
+const objectIterator = weapon[Symbol.iterator]();
 console.log(objectIterator.next());
 console.log(objectIterator.next());
 console.log(objectIterator.next());
 console.log(objectIterator.next());
-console.log(objectIterator.next());*/
+console.log(objectIterator.next());
