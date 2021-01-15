@@ -1,49 +1,33 @@
 function nat(c) {
-    if(typeof(c) !== 'NaN' && c !== null && typeof(c) !== 'string' && typeof(c) !== 'undefined'){
-        for (let i = 1; i <= c; i++) {
-            console.log(i);
-        }
-    } else {
-        console.log('Вы ввели не натуральное число');
-    }
+    return c > 0 ? nat(c - 1) + String(c) +" " : "";
 };
-nat(4);
+console.log(nat(4));
 
-
-function natTwo(a) {
-    for (let i = 0; i < a; i++) {
-        let res = Math.pow(2, i);
-        if (res == a){
-            return console.log("YES");
-        }
-    }
+function fncTwo(a, i = 1) {
+    let res = Math.pow(2, i);
+    if(i < a){
+      return a == res ? console.log("YES") : fncTwo(a, ++i);
+    } 
     return console.log("NO");
 };
-natTwo(8);
+fncTwo(8);
 
 function sum(x) {
-    const masiv = String(x).split("");
-    let result = 0;
-    for (let i = 0; i < masiv.length; i++) {
-        result += Number(masiv[i]);
+    if (x !== 0){
+        return (x % 10) + sum(Math.floor(x/10))
     }
-    console.log(result);
-    return result;
-};
-sum(123444);
-
-
-
-
-
+    return 0;
+}
+console.log(sum(123));
 
 function depth(obj) {
     const objectCopy = {};
     for (const key in obj) {
-        let element = [key];
-        objectCopy[element] = obj[key];
+        if(obj.hasOwnProperty(key)){
+            let element = [key];
+            objectCopy[element] = typeof(obj[key]) == "object" || obj[key] == null ? depth(obj[key]) : obj[key]; 
+        }
     } 
-    console.log(objectCopy);
     return objectCopy;
 };
 const object1 = {
@@ -57,13 +41,7 @@ const object1 = {
         }
     }
 }
-depth(object1);
-
-
-
-
-
-
+console.log(depth(object1));
 
 const obj2 = {
     name: "John",
@@ -75,40 +53,26 @@ const obj2 = {
         age: 40,
       }
     }
-}
-/*function fnc (obj, str) {
-    let value, laneXZ;
-    if(Array.isArray(str)){
-        str.shift();
-        laneXZ = str;
-    } else {
-        laneXZ = str.split('.');
+  }
+  function fnc (obj, str) {
+    for (const key in obj) {
+      let arr;
+        if (Array.isArray(str)){
+          arr = str;
+        } else {
+          arr = str.split(".");
+        }
+        for(let i = 0; i < arr.length; i++){
+            let key1 = arr[i];
+            if (typeof(obj[key1]) == "object" || obj[key1] == null) {
+                arr.shift();
+                return fnc(obj[key1], arr);
+            } else{
+              return obj[key1];
+            }
+        }
+        return 0;
     }
-    if (typeof(obj) !== "object" || obj === null) return obj;
-    for(const el of laneXZ){
-        value = obj[el];
-        return fnc(value, laneXZ);
-    }
-}
-console.log(fnc(obj2, 'dopInfo.mother.name'));*/
-function fnc (obj, str) {
-    let arr = str.split('.');
-    /*let value1 = obj[arr[0]];
-    let value2 = value1[arr[1]];
-    let value3 = value2[arr[2]];
-    console.log(value1);
-    console.log(value2);
-    console.log(value3);*/
-    for(let i = 0; i < arr.length; i++){
-        let el = 0;
-        i = obj[arr[el]];
-        let value;
-        console.log(i);
-       while (typeof(i) == "object"){
-        arr.shift();
-        value = i[arr[i]];
-       }
-       console.log(value);
-    }
-}
-console.log(fnc(obj2, 'dopInfo.mother.name'));
+  }
+  console.log(fnc(obj2, 'dopInfo.mother.age'));
+
