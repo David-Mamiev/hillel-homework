@@ -62,13 +62,8 @@ Squad.prototype.restore = function () {
     this.squad.forEach((elem) => {elem.restore()})
 };
 Squad.prototype.getReadyToMoveResources = function () {
-  const arrGetReadyToMove = [];
-  this.squad.forEach((elem) => {
-    if(elem.isReadyToMove()){
-      arrGetReadyToMove.push(elem);
-    }
-  })
-  return arrGetReadyToMove;
+  const arrGetReadyToMoveResources = this.squad.filter(elem => elem.isReadyToMove()); 
+  return arrGetReadyToMoveResources;
 };
 Squad.prototype.combineResources = function (defaultResources) {
   this.squad = [...defaultResources];
