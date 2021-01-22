@@ -20,15 +20,6 @@ class MilitaryResource {
     }
     clone(){
       const objClone = JSON.parse(JSON.stringify(this));
-      // for (const key in this) {
-      //     if(typeof(this[key]) == "object") {
-      //         objClone[key] = clone(this[key]);
-      //     }
-      //     else {
-      //         objClone[key] = this[key];
-      //     }
-      // }
-  
       return objClone;
     }
   }
@@ -77,4 +68,3 @@ class MilitaryResource {
   
   
   const squadConst = new Squad(resources);
-  console.log(squadConst.squad[0].clone());
