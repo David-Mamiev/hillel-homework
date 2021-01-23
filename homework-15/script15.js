@@ -19,8 +19,7 @@ class MilitaryResource {
     }
     }
     clone(){
-      const objClone = JSON.parse(JSON.stringify(this));
-      return objClone;
+      return new MilitaryResource(this.type, this.health, this.distance);
     }
   }
   const infantrymanConst = new MilitaryResource('infantryman', 100, 20);
@@ -58,13 +57,14 @@ class MilitaryResource {
       return arrGetReadyToMoveResources;
     }
     clone() {
-      const squadCopy = {squad:[]};
-      this.squad.forEach((elem) => {
-      squadCopy.squad.push(elem.clone());
-    })
-    return squadCopy;
+      const squadCopy = this.squad.map(function(elem) {
+        return elem.clone();
+      })
+      return new Squad (squadCopy);
     }
   }
   
   
   const squadConst = new Squad(resources);
+  console.log(squadConst)
+  console.log(squadConst.clone())

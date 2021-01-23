@@ -19,16 +19,7 @@ MilitaryResource.prototype.restore = function (){
   }
 };
 MilitaryResource.prototype.clone = function (){
-  const objClone = {}
-  for (const key in this) {
-      if(typeof(this[key]) == "object") {
-          objClone[key] = MilitaryResource.prototype.clone(this[key]);
-      }
-      else {
-          objClone[key] = this[key];
-      }
-  }
-  return objClone;
+  return new MilitaryResource(this.type, this.health, this.distance);
 };
 
 
@@ -69,11 +60,12 @@ Squad.prototype.combineResources = function (defaultResources) {
   this.squad = [...defaultResources];
 };
 Squad.prototype.clone = function () {
-  const squadCopy = {squad:[]};
-  this.squad.forEach((elem) => {
-    squadCopy.squad.push(elem.clone());
+  const squadCopy = this.squad.map(function(elem) {
+    return elem.clone();
   })
-  return squadCopy;
+  return new Squad (squadCopy);
 };
 
  const squadConst = new Squad(resources);
+ console.log(squadConst);
+console.log(squadConst.clone());

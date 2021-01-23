@@ -19,8 +19,7 @@ class MilitaryResource {
     }
     }
     clone(){
-      const objClone = JSON.parse(JSON.stringify(this));
-      return objClone;
+      return new MilitaryResource(this.type, this.health, this.distance);
     }
   }
 

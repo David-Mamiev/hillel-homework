@@ -26,11 +26,10 @@ class Squad {
       return arrGetReadyToMoveResources;
     }
     clone() {
-      const squadCopy = {squad:[]};
-      this.squad.forEach((elem) => {
-      squadCopy.squad.push(elem.clone());
-    })
-    return squadCopy;
+      const squadCopy = this.squad.map(function(elem) {
+        return elem.clone();
+      })
+      return new Squad (squadCopy);
     }
   }
 
