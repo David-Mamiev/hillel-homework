@@ -8,6 +8,8 @@ class Squad {
     isReadyToMove() {
       if (Array.isArray(this.squad)) {
         return this.squad.every(elem => elem.isReadyToMove());  
+      } else {
+        return false;
       }
     }
     isReadyToFight() {
@@ -22,8 +24,7 @@ class Squad {
       this.squad = [...defaultResources];
     }
     getReadyToMoveResources(){
-      const arrGetReadyToMoveResources = this.squad.filter(elem => elem.isReadyToMove()); 
-      return arrGetReadyToMoveResources;
+      return this.squad.filter(elem => elem.isReadyToMove());
     }
     clone() {
       const squadCopy = this.squad.map(function(elem) {

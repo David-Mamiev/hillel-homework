@@ -5,10 +5,10 @@ function MilitaryResource(type, health, distance) {
 }
 
 MilitaryResource.prototype.isReadyToMove = function (){
-  return this.distance > 10 ? true : false;
+  return this.distance > (this.maxDistance * 20)/100;
 };
 MilitaryResource.prototype.isReadyToFight = function (){
-  return this.health > 50 ? true : false;
+  return this.health > (this.maxHealth*50)/100;
 };
 MilitaryResource.prototype.restore = function (){
   if(this.distance !== this.maxDistance){
@@ -42,6 +42,8 @@ function Squad(defaultResources) {
 Squad.prototype.isReadyToMove = function () {
   if (Array.isArray(this.squad)) {
     return this.squad.every(elem => elem.isReadyToMove());  
+  } else {
+    return false;
   }
 };
 Squad.prototype.isReadyToFight = function (){
@@ -53,8 +55,7 @@ Squad.prototype.restore = function () {
     this.squad.forEach((elem) => {elem.restore()})
 };
 Squad.prototype.getReadyToMoveResources = function () {
-  const arrGetReadyToMoveResources = this.squad.filter(elem => elem.isReadyToMove()); 
-  return arrGetReadyToMoveResources;
+  return this.squad.filter(elem => elem.isReadyToMove());
 };
 Squad.prototype.combineResources = function (defaultResources) {
   this.squad = [...defaultResources];
@@ -67,5 +68,3 @@ Squad.prototype.clone = function () {
 };
 
  const squadConst = new Squad(resources);
- console.log(squadConst);
-console.log(squadConst.clone());

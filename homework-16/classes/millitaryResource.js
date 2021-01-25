@@ -5,10 +5,10 @@ class MilitaryResource {
       this.distance = this.maxDistance = distance;
     }
     isReadyToMove() {
-      return this.distance > 10;
+      return this.distance > (this.maxDistance * 20)/100;
     }
     isReadyToFight(){
-      return this.health > 50;
+      return this.health > (this.maxHealth*50)/100;
     }
     restore(){
       if(this.distance !== this.maxDistance){
