@@ -42,7 +42,11 @@ app.patch('/:id', ({ body, params }, res) => {
     const { id } = params;
     readJSON(usersAddr, (_, data) => {
         const index = data.findIndex(el => el.id == id);
-        data[index] = body;
+        if(body.name) {
+            data[index].name = body.name;
+        } if(body.level) {
+            data[index].level = body.level;
+        };
         data[index].id = Number(id);
         writeJSON(usersAddr, data, () => {
             res.end(JSON.stringify(data));
