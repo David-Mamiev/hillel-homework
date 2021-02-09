@@ -29,10 +29,8 @@ app.get('/get', (req, res) => {
 app.delete("/:id", ({ params }, res) => {
     const { id } = params;
     readJSON(usersAddr, (_, data) => {
-        const obj = data.find(el => el.id == id);
-        const newArr = [...data].filter(el => el !== obj);
-        writeJSON(usersAddr, newArr, () => {
-            res.end(JSON.stringify(newArr));
+        writeJSON(usersAddr, [...data].filter(el => el.id !== Number(id)), () => {
+            res.end(JSON.stringify([...data].filter(el => el.id !== Number(id))));
         });
     });
     readJSON(usersAddr, (_, data) => {
