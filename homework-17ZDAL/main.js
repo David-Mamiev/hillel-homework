@@ -58,17 +58,26 @@ const patch = (req, res, body) => {
         ["Content-Type"]: 'application/json',
     });
     readJSON(usersAddr, (_, data) => {
-        console.log();
-        const index = data.findIndex(el => el.id == id);
+        const index = data.findIndex(el => el.id === Number(req));
         if(body.name) {
             data[index].name = body.name;
         } if(body.level) {
             data[index].level = body.level;
         }
-        data[index].id = Number(id);
+        data[index].id = Number(req);
         writeJSON(usersAddr, data, () => {
             res.end(JSON.stringify(data));
         });
+    });
+};
+const deleteMethod = (req, res) => {
+    readJSON(usersAddr, (_, data) => {
+        writeJSON(usersAddr, [...data].filter(el => el.id !== Number(req)), () => {
+            res.end(JSON.stringify([...data].filter(el => el.id !== Number(req))));
+        });
+    });
+    readJSON(usersAddr, (_, data) => {
+        res.end("Deleted!");
     });
 };
 
@@ -81,6 +90,12 @@ const route = (req, res, data) => {
             break;
         case "add":
             add(req, res, data);
+            break;
+        case "patchUser":
+            patch(parsedUrl[1], res, data);
+            break;
+        case "deleteUser":
+            deleteMethod(parsedUrl[1], res);
             break;
         default:
             res.end("Hello man");
@@ -99,40 +114,6 @@ const server = http.createServer((req, res) => {
             body = Buffer.concat(body).toString();
             route(req, res, body ? JSON.parse(body) : undefined);
         });
-    const id = Number(reqUrl.slice(1));
-    if (reqMethod === "DELETE") {
-        readJSON(usersAddr, (_, data) => {
-            const obj = data.find(el => el.id == id);
-            delete data[id-1];
-            const newArr = [...data].filter(el => el !== undefined);
-            writeJSON(usersAddr, newArr, () => {
-                res.end(JSON.stringify(newArr));
-            });
-        });
-        readJSON(usersAddr, (_, data) => {
-            res.end("Deleted!");
-        });
-    }
-    if (reqMethod === "PATCH") {
-        collectRequestData(req, (body) =>{
-            body = JSON.parse(body);
-            res.writeHead(200, {
-                ["Content-Type"]: 'application/json',
-            });
-            readJSON(usersAddr, (_, data) => {
-                const index = data.findIndex(el => el.id == id);
-                if(body.name) {
-                    data[index].name = body.name;
-                } if(body.level) {
-                    data[index].level = body.level;
-                }
-                data[index].id = Number(id);
-                writeJSON(usersAddr, data, () => {
-                    res.end(JSON.stringify(data));
-                });
-            });
-        })
-    }
 });
 
 server.listen(8080, () => {
