@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.20",
+    "sass": "^1.32.7",
+    "sass-loader": "^11.0.1",
     "webpack": "^5.21.2"
   },
   "devDependencies": {

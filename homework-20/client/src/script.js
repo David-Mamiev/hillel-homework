@@ -1,53 +1,83 @@
-import { div, get } from './utils';
+import { div, get, a, img, span } from './utils';
 
-get('/get').then((data) =>{
+const getPokemon = () => fetch('https://api.pokemontcg.io/v2/cards');
+getPokemon().then((response) => (response.json())).then((data) => {
+    const pockemon1 = data.data[(Math.floor(Math.random() * Math.floor(250)))];
+    const pockemon2 = data.data[(Math.floor(Math.random() * Math.floor(250)))];
+    const pockemon3 = data.data[(Math.floor(Math.random() * Math.floor(250)))];
+    const pockemon4 = data.data[(Math.floor(Math.random() * Math.floor(250)))];
+    const pockemon5 = data.data[(Math.floor(Math.random() * Math.floor(250)))];
+    const arrPockemons = [];
+    arrPockemons.push(pockemon1, pockemon2, pockemon3, pockemon4, pockemon5);
     const app = document.getElementById('app');
     let currentSlide = 0;
+
+    let cards, dots;
+
+      const setActualSlide = (index) => {
+          cards.forEach(slide => slide.classList.remove('active'));
+          dots.forEach(dot => dot.classList.remove('active'));
+
+          cards[index].classList.add('active');
+          dots[index].classList.add('active');
+          currentSlide = index;
+      }
+
     const wrapper = div({
-        classNames: ['gallery'],
-        children: [
-            div({
-                classNames:['gellery__prev__wrapper'],
-                listeners: {
-                    click: () => {
-                        currentSlide = !currentSlide ? 0 : currentSlide - 1;
-                        console.log(currentSlide);
-                    },
-                },
-                children: ['<'],
-            }),
-            div({
-                classNames:['gellery__next__wrapper'],
-                listeners: {
-                    click: () => {
-                        currentSlide = currentSlide === data.length ? data.length : currentSlide + 1;
-                        console.log(currentSlide);
-                    },
-                },
-                children: ['>'],
-            }),
-            div({
-                classNames:['gellery__cards__wrapper'],
-                children:data.map((user) => {
-                    const card = div({
-                        classNames: ['card'],
-                        children: [
-                            div({
-                                classNames: ['card-header'],
-                                children: [user.name],
-                            }),
-                            div({
-                                classNames: ['card-body'],
-                                children: [user.level],
-                            }),
-                        ],
-                    });
-                    return card;
-                }),
-                
-            }),
-        ],
+      classNames: ['slideshow-container'],
+      children: [
+        a({
+          classNames: ['prev'],
+          listeners: {
+            click: () => {
+              setActualSlide(!currentSlide ? 0 : currentSlide - 1);
+            },
+          },
+          children: ['❮'],
+        }),
+        a({
+          classNames: ['next'],
+          listeners: {
+            click: () => {
+              setActualSlide(currentSlide === arrPockemons.length - 1 ? arrPockemons.length - 1 : currentSlide + 1);
+            },
+          },
+          children: ['❯'],
+        }),
+        ...(cards = arrPockemons.map((user, i) =>
+          div({
+            classNames: ['mySlides', 'fade', !i ? 'active' : 'hide'],
+            children: [
+              div({
+                classNames: ['numbertext'],
+                children: [`${i + 1}/${arrPockemons.length}`],
+              }),
+              img({
+                classNames: ['slider-image'],
+                src: '',
+              }),
+              div({
+                classNames: ['text'],
+                children: [user.name],
+              }),
+            ],
+          })
+        )),
+      ],
     });
-    console.log(wrapper);
+
+    const dotsWrapper = div({
+      classNames: ['dots-wrapper'],
+      children: (dots = arrPockemons.map((_, i) =>
+        span({
+          classNames: ['dot',  !i ? 'active' : 'hide'],
+          listeners: {
+              click: () => setActualSlide(i)
+          }
+        })
+      )),
+    });
+  
     app.append(wrapper);
+    app.append(dotsWrapper);
 });
