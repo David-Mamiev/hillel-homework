@@ -1,0 +1,25 @@
+body{
+    margin: 0;
+}
+.box {
+    margin-left: 126px;
+    margin-top: 57px;
+    position: relative;
+}
+.box::before{
+    content: "";
+    display: block;
+    width: 5px;
+    height: 150px;
+    background-color: black;
+    position: relative;
+    top: 75px;
+    right: -75px;
+}
+.box::after{
+    content: "";
+    display: block;
+    width: 150px;
+    height: 5px;
+    background-color: black;
+}
