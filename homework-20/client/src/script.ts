@@ -1,6 +1,6 @@
 import { div, get, a, img, span } from './utils';
 
-function GetPockemon (arr:[{}]) {
+function GetPockemon (arr:object[]) {
   return arr[(Math.floor(Math.random() * Math.floor(250)))];
 }
 
@@ -12,12 +12,12 @@ getPokemon().then((response) => (response.json())).then((data) => {
       new GetPockemon(data.data), new GetPockemon(data.data)
     ];
     console.log(arrPockemons);
-    const app:HTMLElement = document.getElementById('app');
+    const app:HTMLElement | null = document.getElementById('app');
     let currentSlide = 0;
 
     let cards:HTMLElement[], dots:HTMLElement[];
 
-      const setActualSlide = (index:number) => {
+      const setActualSlide = (index:number):void => {
           cards.forEach(slide => slide.classList.remove('active'));
           dots.forEach(dot => dot.classList.remove('active'));
 
@@ -81,6 +81,8 @@ getPokemon().then((response) => (response.json())).then((data) => {
       )),
     });
   
-    app.append(wrapper);
-    app.append(dotsWrapper);
+    if (app !== null){
+      app.append(wrapper);
+      app.append(dotsWrapper);
+    }
 });
