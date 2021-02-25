@@ -1,17 +1,16 @@
 import { div, get, a, img, span } from './utils';
 
-function GetPockemon (arr:object[]) {
-  return arr[(Math.floor(Math.random() * Math.floor(250)))];
+function GetPockemons (arr:object[], number:number):object[] {
+  const newArrPockemons:object[] = [];
+  for (let i = 0; i < number; i++){
+    newArrPockemons.push(arr[(Math.floor(Math.random() * Math.floor(250)))])
+  }
+  return newArrPockemons;
 }
 
 const getPokemon = () => fetch('https://api.pokemontcg.io/v2/cards');
 getPokemon().then((response) => (response.json())).then((data) => {
-    const arrPockemons = [
-      new GetPockemon(data.data), new GetPockemon(data.data), 
-      new GetPockemon(data.data), new GetPockemon(data.data), 
-      new GetPockemon(data.data), new GetPockemon(data.data)
-    ];
-    console.log(arrPockemons);
+    const arrPockemons = GetPockemons(data.data, 6);
     const app:HTMLElement | null = document.getElementById('app');
     let currentSlide = 0;
 
